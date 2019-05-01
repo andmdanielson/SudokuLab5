@@ -13,6 +13,7 @@ import java.util.Random;
 import pkgEnum.ePuzzleViolation;
 import pkgHelper.LatinSquare;
 import pkgHelper.PuzzleViolation;
+import pkgEnum.eGameDifficulty;
  
 
 /**
@@ -658,5 +659,19 @@ public class Sudoku extends LatinSquare implements Serializable {
 			return (SudokuCell)cells.get(Objects.hash(iRow,iCol));		
 
 		}
+	}
+	
+	// Begin lab 5
+	
+	private eGameDifficulty eGameDifficulty;
+	
+	private Sudoku() throws Exception {
+		this(9);
+		this.eGameDifficulty=pkgEnum.eGameDifficulty.get(100);
+		//call method to remove values
+	}
+	
+	private static int possibleValuesMultiplier(HashMap<Integer,Sudoku.SudokuCell> cells){
+		return 0;
 	}
 }
