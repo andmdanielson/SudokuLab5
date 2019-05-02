@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
@@ -671,7 +672,31 @@ public class Sudoku extends LatinSquare implements Serializable {
 		//call method to remove values
 	}
 	
-	private static int possibleValuesMultiplier(HashMap<Integer,Sudoku.SudokuCell> cells){
-		return 0;
+	private static int possibleValuesMultiplier(HashMap<Integer,Sudoku.SudokuCell> cells) throws Exception{
+		Sudoku puzzle = new Sudoku();
+		boolean finished=false;
+		int possibleValues;
+		while (finished==false) {
+			int col=(int) (9*Math.random());
+			int row=(int) (9*Math.random());
+			if (col==9) {
+				col=8;
+			}
+			if (row==9) {
+				row=8;
+			}
+			puzzle.getPuzzle()[row][col]=0;
+			possibleValues=1;
+			for (Map.Entry<Integer,Sudoku.SudokuCell> pair : cells.entrySet()) {
+				Sudoku.SudokuCell c = pair.getValue();
+				int vals=c.getLstValidValues().size();
+				possibleValues=vals*possibleValues;
+			}
+			//if (puzzle.eGameDifficulty==EASY) {
+				
+			//}
+		}
+		
+		
 	}
 }
