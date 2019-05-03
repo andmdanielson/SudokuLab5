@@ -689,7 +689,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 			percentToRemove= 35 + (int)(Math.random()*25);
 		}
 		else {
-			percentToRemove= 70 + (int)(Math.random()*10);
+			percentToRemove= 70 + (int)(Math.random()*5);
 		}
 		
 		
