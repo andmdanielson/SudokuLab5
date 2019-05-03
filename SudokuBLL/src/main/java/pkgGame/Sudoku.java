@@ -666,17 +666,65 @@ public class Sudoku extends LatinSquare implements Serializable {
 	
 	private eGameDifficulty eGameDifficulty;
 	
-	private Sudoku() throws Exception {
+	public Sudoku() throws Exception {
 		this(9);
-		this.eGameDifficulty=pkgEnum.eGameDifficulty.get(100);
-		//call method to remove values
+		this.eGameDifficulty=pkgEnum.eGameDifficulty.EASY;
+		removeValues();
 	}
 	
+	public Sudoku(int size, eGameDifficulty eGD) throws Exception{
+		this(size);
+		this.eGameDifficulty = eGD;
+		removeValues();
+	}
+	
+	private void removeValues() throws Exception{
+		int zeros_added=0;
+		int elements=this.iSize*this.iSize;
+		int percentToRemove;
+		if (this.eGameDifficulty==pkgEnum.eGameDifficulty.EASY) {
+			percentToRemove= 15 + (int)(Math.random()*15);
+		}
+		else if (this.eGameDifficulty==pkgEnum.eGameDifficulty.MEDIUM) {
+			percentToRemove= 35 + (int)(Math.random()*25);
+		}
+		else {
+			percentToRemove= 70 + (int)(Math.random()*10);
+		}
+		
+		
+		boolean finished=false;
+		int percentChanged=0;
+		while (finished==false) {
+			int row=(int)(Math.random()*this.iSize);
+			int col=(int)(Math.random()*this.iSize);
+			if (row==this.iSize) {
+				row--;
+			}
+			if (col==this.iSize) {
+				col--;
+			}
+			if (this.getPuzzle()[row][col]!=0) {
+				zeros_added++;
+				this.getPuzzle()[row][col]=0;
+			}
+			
+			percentChanged=(int)(((double) zeros_added/elements)*100);
+			if (percentChanged>percentToRemove) {
+				finished=true;
+			}
+		}
+		
+		
+	}
+	/*
 	private static int possibleValuesMultiplier(HashMap<Integer,Sudoku.SudokuCell> cells) throws Exception{
 		Sudoku puzzle = new Sudoku();
+		puzzle.PrintPuzzle();
 		boolean finished=false;
-		int possibleValues;
-		while (finished==false) {
+		int possibleValues=1;
+		
+		while (finished==false){
 			int col=(int) (9*Math.random());
 			int row=(int) (9*Math.random());
 			if (col==9) {
@@ -692,11 +740,14 @@ public class Sudoku extends LatinSquare implements Serializable {
 				int vals=c.getLstValidValues().size();
 				possibleValues=vals*possibleValues;
 			}
-			//if (puzzle.eGameDifficulty==EASY) {
-				
-			//}
+			if (possibleValues>100) {
+				finished=true;
+			}
+			
 		}
+		puzzle.PrintPuzzle();
 		
-		
+		return Integer.MAX_VALUE;
 	}
+	*/
 }

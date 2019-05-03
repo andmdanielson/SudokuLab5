@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import org.junit.Test;
+import pkgEnum.eGameDifficulty;
 
 public class SudokuTest {
 
@@ -124,7 +125,7 @@ public class SudokuTest {
 	}*/
 
 
-	@Test
+	//@Test
 	public void Sudoku_FullPuzzle_1()
 	{
 		try {
@@ -135,6 +136,11 @@ public class SudokuTest {
 		} catch (Exception e) {
 			fail("Test failed to build a Sudoku");
 		}
+	}
+	@Test
+	public void test() throws Exception{
+		Sudoku puzzle = new Sudoku(9,eGameDifficulty.HARD);
+		puzzle.PrintPuzzle();
 	}
 
 
