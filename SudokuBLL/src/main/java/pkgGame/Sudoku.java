@@ -588,6 +588,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 		private int iRow;
 		private int iCol;
 		private ArrayList<Integer> lstValidValues = new ArrayList<Integer>();
+		private ArrayList<Integer> lstRemainingValidValues = new ArrayList<Integer>();
 
 		public SudokuCell(int iRow, int iCol) {
 			super(iRow, iCol);
@@ -611,10 +612,18 @@ public class Sudoku extends LatinSquare implements Serializable {
 		public ArrayList<Integer> getLstValidValues() {
 			return lstValidValues;
 		}
+		
+		public ArrayList<Integer> getLstRemainingValidValues() {
+			return lstRemainingValidValues;
+		}
 
 
 		public void setlstValidValues(HashSet<Integer> hsValidValues) {
 			lstValidValues = new ArrayList<Integer>(hsValidValues);
+		}
+		
+		public void setlstRemainingValidValues(HashSet<Integer> hsValidValues) {
+			lstRemainingValidValues = new ArrayList<Integer>(hsValidValues);
 		}
 
 		public void ShuffleValidValues() {
@@ -664,28 +673,38 @@ public class Sudoku extends LatinSquare implements Serializable {
 	
 	// Begin lab 5
 	
-	private eGameDifficulty eGameDifficulty;
+	private eGameDifficulty eGD;
 	
 	public Sudoku() throws Exception {
 		this(9);
-		this.eGameDifficulty=pkgEnum.eGameDifficulty.EASY;
-		removeValues();
+		this.eGD=pkgEnum.eGameDifficulty.EASY;
+		removeCells();
 	}
 	
 	public Sudoku(int size, eGameDifficulty eGD) throws Exception{
 		this(size);
-		this.eGameDifficulty = eGD;
-		removeValues();
+		this.eGD = eGD;
+		removeCells();
 	}
 	
-	private void removeValues() throws Exception{
+	public boolean IsDifficultyMet(int iPercentage) {
+		int desiredPctRemove = eGD.getiPctRemove();
+		if(iPercentage<desiredPctRemove) {
+			return false;
+		}
+		else
+			return true;
+	}
+	
+	
+	private void removeCells() throws Exception{
 		int zeros_added=0;
 		int elements=this.iSize*this.iSize;
 		int percentToRemove;
-		if (this.eGameDifficulty==pkgEnum.eGameDifficulty.EASY) {
+		if (this.eGD==pkgEnum.eGameDifficulty.EASY) {
 			percentToRemove= 15 + (int)(Math.random()*15);
 		}
-		else if (this.eGameDifficulty==pkgEnum.eGameDifficulty.MEDIUM) {
+		else if (this.eGD==pkgEnum.eGameDifficulty.MEDIUM) {
 			percentToRemove= 35 + (int)(Math.random()*25);
 		}
 		else {
@@ -717,37 +736,22 @@ public class Sudoku extends LatinSquare implements Serializable {
 		
 		
 	}
-	/*
-	private static int possibleValuesMultiplier(HashMap<Integer,Sudoku.SudokuCell> cells) throws Exception{
-		Sudoku puzzle = new Sudoku();
-		puzzle.PrintPuzzle();
-		boolean finished=false;
-		int possibleValues=1;
-		
-		while (finished==false){
-			int col=(int) (9*Math.random());
-			int row=(int) (9*Math.random());
-			if (col==9) {
-				col=8;
+	
+	private void setRemainingCells() {
+		cells.clear();
+		for (int iRow = 0; iRow < iSize; iRow++) {
+			for (int iCol = 0; iCol < iSize; iCol++) {
+				SudokuCell c = new SudokuCell(iRow, iCol);
+				c.setlstRemainingValidValues(getAllValidCellValues(iCol, iRow));
+				cells.put(c.hashCode(), c);
 			}
-			if (row==9) {
-				row=8;
-			}
-			puzzle.getPuzzle()[row][col]=0;
-			possibleValues=1;
-			for (Map.Entry<Integer,Sudoku.SudokuCell> pair : cells.entrySet()) {
-				Sudoku.SudokuCell c = pair.getValue();
-				int vals=c.getLstValidValues().size();
-				possibleValues=vals*possibleValues;
-			}
-			if (possibleValues>100) {
-				finished=true;
-			}
-			
 		}
-		puzzle.PrintPuzzle();
 		
-		return Integer.MAX_VALUE;
 	}
-	*/
+	
+	
+	private static int possibleValuesMultiplier(HashMap<Integer,Sudoku.SudokuCell> cells) throws Exception{
+		
+	}
+	
 }

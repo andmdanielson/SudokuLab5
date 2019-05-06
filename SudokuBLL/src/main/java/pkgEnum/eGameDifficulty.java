@@ -1,31 +1,50 @@
 package pkgEnum;
-
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public enum eGameDifficulty {
+
+	EASY(10), MEDIUM(30), HARD(60);
 	
-	EASY(100), MEDIUM(500), HARD(1000);
+	private int iPctRemove;
 	
-	private final int iDifficultyValue;
-	
-	private static final Map<Integer, eGameDifficulty> lookup = new HashMap<Integer, eGameDifficulty>();
-	
+	private static final Map<Integer, eGameDifficulty> 
+			lookup = new LinkedHashMap<Integer, eGameDifficulty>();
+
 	static {
-        for (eGameDifficulty d : eGameDifficulty.values()) {
-            lookup.put(d.getDifficultyValue(), d);
-        }
-    }
+		for (eGameDifficulty d : eGameDifficulty.values()) {
+			lookup.put(d.getiPctRemove(), d);
+		}
+	}
+	
+	private eGameDifficulty(int iPctRemove)
+	{
+		this.iPctRemove = iPctRemove;
+	}
 
-    private eGameDifficulty(int value) {
-        this.iDifficultyValue = value;
-    }
+	public int getiPctRemove() {
+		return iPctRemove;
+	}
+	
+	public static eGameDifficulty get(int iPctRemove) {
 
-    public int getDifficultyValue() {
-        return iDifficultyValue;
-    }
+		Iterator it = lookup.entrySet().iterator();
+		eGameDifficulty eGD = null;
 
-    public static eGameDifficulty get(int value) {
-        return lookup.get(value);
-    }
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry) it.next();
+			eGameDifficulty enumDifficulty = (eGameDifficulty) pair.getValue();
+			int iDifficultyValue = (int) pair.getKey();
+			if (iPctRemove >= iDifficultyValue) {
+				eGD = enumDifficulty;
+			}
+		}
+		return eGD;
+	}
+	
+	
+	
+	
 }

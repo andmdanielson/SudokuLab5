@@ -139,8 +139,9 @@ public class SudokuTest {
 	}
 	@Test
 	public void test() throws Exception{
-		Sudoku puzzle = new Sudoku(9,eGameDifficulty.HARD);
+		Sudoku puzzle = new Sudoku(9,eGameDifficulty.EASY);
 		puzzle.PrintPuzzle();
+		assertTrue(puzzle.isDifficultyMet());
 	}
 
 
