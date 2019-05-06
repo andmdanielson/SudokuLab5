@@ -687,17 +687,30 @@ public class Sudoku extends LatinSquare implements Serializable {
 		removeCells();
 	}
 	
-	public boolean IsDifficultyMet(int iPercentage) {
-		int desiredPctRemove = eGD.getiPctRemove();
-		if(iPercentage<desiredPctRemove) {
-			return false;
+	public boolean isDifficultyMet(int solutions) {
+		boolean satisfied = true;
+		if (eGD == pkgEnum.eGameDifficulty.EASY) {
+			if (solutions<1000) {
+				satisfied = false;
+			}
+		}else if (eGD == pkgEnum.eGameDifficulty.MEDIUM) {
+			if (solutions<500000) {
+				satisfied = false;
+			}
+		}else {
+			if (solutions<1000000) {
+				satisfied = false;
+			}
 		}
-		else
-			return true;
+		return satisfied;
+		
+		
 	}
 	
 	
 	private void removeCells() throws Exception{
+		
+		/*
 		int zeros_added=0;
 		int elements=this.iSize*this.iSize;
 		int percentToRemove;
@@ -733,9 +746,33 @@ public class Sudoku extends LatinSquare implements Serializable {
 				finished=true;
 			}
 		}
+		*/
 		
+		
+		
+		int values = 0;
+		while (isDifficultyMet(values)==false) {	
+			int row=(int)(Math.random()*this.iSize);
+			int col=(int)(Math.random()*this.iSize);
+			if (row==this.iSize) {
+				row--;
+			}
+			if (col==this.iSize) {
+				col--;
+			}
+			if (this.getPuzzle()[row][col]!=0) {
+				this.getPuzzle()[row][col]=0;
+				
+			}
+			
+			setRemainingCells();
+			values = possibleValuesMultiplier(cells);
+			
+		}
+		System.out.println(values);
 		
 	}
+	
 	
 	private void setRemainingCells() {
 		cells.clear();
@@ -751,7 +788,22 @@ public class Sudoku extends LatinSquare implements Serializable {
 	
 	
 	private static int possibleValuesMultiplier(HashMap<Integer,Sudoku.SudokuCell> cells) throws Exception{
-		
+		int value=1;
+		int possible = 0;
+		for (int key : cells.keySet()) {
+			Sudoku.SudokuCell c = cells.get(key);
+			try {
+				possible = c.getLstRemainingValidValues().size();
+				if (possible==0) {
+					possible=1;
+				}
+			} catch (NullPointerException e) {
+				possible = 1;
+			}
+			
+			value=value*possible;
+		}
+		return value;
 	}
 	
 }
