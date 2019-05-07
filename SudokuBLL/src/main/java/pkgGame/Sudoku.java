@@ -688,18 +688,18 @@ public class Sudoku extends LatinSquare implements Serializable {
 	}
 	
 	public boolean isDifficultyMet(int solutions) {
-		boolean satisfied = true;
+		boolean satisfied = false;
 		if (eGD == pkgEnum.eGameDifficulty.EASY) {
-			if (solutions<1000) {
-				satisfied = false;
+			if (solutions>100) {
+				satisfied = true;
 			}
 		}else if (eGD == pkgEnum.eGameDifficulty.MEDIUM) {
-			if (solutions<500000) {
-				satisfied = false;
+			if (solutions>500) {
+				satisfied = true;
 			}
 		}else {
-			if (solutions<1000000) {
-				satisfied = false;
+			if (solutions==Integer.MAX_VALUE) {
+				satisfied = true;
 			}
 		}
 		return satisfied;
@@ -709,47 +709,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 	
 	
 	private void removeCells() throws Exception{
-		
-		/*
-		int zeros_added=0;
-		int elements=this.iSize*this.iSize;
-		int percentToRemove;
-		if (this.eGD==pkgEnum.eGameDifficulty.EASY) {
-			percentToRemove= 15 + (int)(Math.random()*15);
-		}
-		else if (this.eGD==pkgEnum.eGameDifficulty.MEDIUM) {
-			percentToRemove= 35 + (int)(Math.random()*25);
-		}
-		else {
-			percentToRemove= 70 + (int)(Math.random()*5);
-		}
-		
-		
-		boolean finished=false;
-		int percentChanged=0;
-		while (finished==false) {
-			int row=(int)(Math.random()*this.iSize);
-			int col=(int)(Math.random()*this.iSize);
-			if (row==this.iSize) {
-				row--;
-			}
-			if (col==this.iSize) {
-				col--;
-			}
-			if (this.getPuzzle()[row][col]!=0) {
-				zeros_added++;
-				this.getPuzzle()[row][col]=0;
-			}
-			
-			percentChanged=(int)(((double) zeros_added/elements)*100);
-			if (percentChanged>percentToRemove) {
-				finished=true;
-			}
-		}
-		*/
-		
-		
-		
+				
 		int values = 0;
 		while (isDifficultyMet(values)==false) {	
 			int row=(int)(Math.random()*this.iSize);
@@ -769,7 +729,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 			values = possibleValuesMultiplier(cells);
 			
 		}
-		System.out.println(values);
+		
 		
 	}
 	
@@ -802,6 +762,9 @@ public class Sudoku extends LatinSquare implements Serializable {
 			}
 			
 			value=value*possible;
+		}
+		if (value<=0) {
+			value = Integer.MAX_VALUE;
 		}
 		return value;
 	}

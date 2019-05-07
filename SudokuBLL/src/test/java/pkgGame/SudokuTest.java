@@ -125,23 +125,47 @@ public class SudokuTest {
 	}*/
 
 
-	//@Test
-	public void Sudoku_FullPuzzle_1()
-	{
-		try {
-			Sudoku s1 = new Sudoku(9);
-			s1.PrintPuzzle();
-			assertTrue(s1.isSudoku());
-
-		} catch (Exception e) {
-			fail("Test failed to build a Sudoku");
-		}
-	}
+	
 	@Test
-	public void test() throws Exception{
-		Sudoku puzzle = new Sudoku(9,eGameDifficulty.HARD);
+	public void test_default() throws Exception{
+		System.out.println("Default Sudoku - Easy");
+		Sudoku puzzle = new Sudoku();
 		puzzle.PrintPuzzle();
-		//assertTrue(puzzle.isDifficultyMet());
+		assertTrue(puzzle.isPartialSudoku());
+		System.out.println("*********************");
+	}
+	
+	@Test
+	public void test_easy() throws Exception{
+		System.out.println("Easy Sudoku");
+		Sudoku puzzle = new Sudoku(9,pkgEnum.eGameDifficulty.EASY);
+		puzzle.PrintPuzzle();
+		assertTrue(puzzle.isPartialSudoku());
+		System.out.println("*********************");
+	}
+	
+	@Test
+	public void test_medium() throws Exception{
+		System.out.println("Medium Sudoku");
+		Sudoku puzzle = new Sudoku(9,pkgEnum.eGameDifficulty.MEDIUM);
+		puzzle.PrintPuzzle();
+		assertTrue(puzzle.isPartialSudoku());
+		System.out.println("*********************");
+	}
+	
+	@Test
+	public void test_hard() throws Exception{
+		System.out.println("Hard Sudoku");
+		Sudoku puzzle = new Sudoku(9,pkgEnum.eGameDifficulty.HARD);
+		puzzle.PrintPuzzle();
+		assertTrue(puzzle.isPartialSudoku());
+		System.out.println("*********************");
+	}
+	
+	//@Test
+	public void test() {
+		System.out.println(Integer.MAX_VALUE);
+		System.out.println(Integer.MAX_VALUE*10000);
 	}
 
 
