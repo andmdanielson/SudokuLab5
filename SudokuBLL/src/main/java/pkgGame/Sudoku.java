@@ -731,6 +731,8 @@ public class Sudoku extends LatinSquare implements Serializable {
 		}
 		
 		
+		
+		
 	}
 	
 	

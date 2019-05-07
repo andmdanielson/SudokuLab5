@@ -162,11 +162,7 @@ public class SudokuTest {
 		System.out.println("*********************");
 	}
 	
-	//@Test
-	public void test() {
-		System.out.println(Integer.MAX_VALUE);
-		System.out.println(Integer.MAX_VALUE*10000);
-	}
+	
 
 
 
