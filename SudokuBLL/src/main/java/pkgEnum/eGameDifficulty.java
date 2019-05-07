@@ -8,7 +8,7 @@ public enum eGameDifficulty {
 
 	EASY(100), MEDIUM(500), HARD(1000);
 	
-	private int iPctRemove;
+	private int iPossibleSolutions;
 	
 	private static final Map<Integer, eGameDifficulty> 
 			lookup = new LinkedHashMap<Integer, eGameDifficulty>();
@@ -21,11 +21,11 @@ public enum eGameDifficulty {
 	
 	private eGameDifficulty(int iPctRemove)
 	{
-		this.iPctRemove = iPctRemove;
+		this.iPossibleSolutions = iPctRemove;
 	}
 
 	public int getiPctRemove() {
-		return iPctRemove;
+		return iPossibleSolutions;
 	}
 	
 	public static eGameDifficulty get(int iPctRemove) {
